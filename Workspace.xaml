@@ -1,0 +1,121 @@
+﻿<Window x:Class="adoHomeWork.Workspace"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:adoHomeWork"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+         TextElement.FontWeight="Regular"
+         TextElement.FontSize="13"
+         TextOptions.TextFormattingMode="Ideal"
+         TextOptions.TextRenderingMode="Auto"
+         Background="{DynamicResource MaterialDesignPaper}"
+         FontFamily="{DynamicResource MaterialDesignFont}"
+        mc:Ignorable="d"
+        Title="Рабочее пространство" Height="800" Width="1440"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="5 px"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="5 px"/>
+            <ColumnDefinition Width="0.33*"/>
+        </Grid.ColumnDefinitions>
+        <GridSplitter Grid.Column="1" Background="#FD000000" Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+        <GridSplitter Grid.Column="3" Background="#FD000000" Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+        <ScrollViewer Grid.Column="0">
+            <StackPanel>
+                <TextBlock Text="Список клиентов" HorizontalAlignment="Center" Margin="0,20,0,20" FontSize="20" FontFamily="Segoe Print"/>
+                <DataGrid x:Name="gridViewLocal" 
+                          ItemsSource="{Binding}" 
+                          CurrentCellChanged="ChangedLocal" 
+                          CellEditEnding="ChangedEndingLocal" 
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="idlocal" 
+                                    Binding="{Binding Id}" 
+                                    Header="Id" 
+                                    IsReadOnly="True"/>
+                        <DataGridTextColumn x:Name="surname" 
+                                    Binding="{Binding surname}" 
+                                    Header="Фамилия"/>
+                        <DataGridTextColumn x:Name="name" 
+                                    Binding="{Binding name}" 
+                                    Header="Имя"/>
+                        <DataGridTextColumn x:Name="patronymic" 
+                                    Binding="{Binding patronymic}" 
+                                    Header="Отчество"/>
+                        <DataGridTextColumn x:Name="phoneNumber" 
+                                    Binding="{Binding phoneNumber}" 
+                                    Header="Номер телефона"/>
+                        <DataGridTextColumn x:Name="emaillocal" 
+                                    Binding="{Binding email}" 
+                                    Header="email"/>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Добавить" Click="addNewClientButton"/>
+                            <MenuItem Header="Удалить" Click="DeleteItemLocal"/>
+                            <MenuItem Header="Список покупок" Click="allOrdersOneClientButton"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+            </StackPanel>
+        </ScrollViewer>
+        <ScrollViewer Grid.Column="2">
+            <StackPanel>
+                <TextBlock Text="Список покупок" HorizontalAlignment="Center" Margin="0,20,0,20" FontSize="20" FontFamily="Segoe Print"/>
+                <DataGrid x:Name="gridViewAccess" 
+                          ItemsSource="{Binding}"  
+                          CurrentCellChanged="ChangedAccess" 
+                          CellEditEnding="ChangedEndingAccess" 
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="idAccess" 
+                                    Binding="{Binding Id}" 
+                                    Header="Id" 
+                                    IsReadOnly="True"/>
+                        <DataGridTextColumn x:Name="emailAccess" 
+                                    Binding="{Binding email}" 
+                                    Header="email"/>
+                        <DataGridTextColumn x:Name="product_number" 
+                                    Binding="{Binding product_number}" 
+                                    Header="Код товара"/>
+                        <DataGridTextColumn x:Name="product_name" 
+                                    Binding="{Binding product_name}" 
+                                    Header="Наименование товара"/>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Добавить" Click="AddNewOrderButton"/>
+                            <MenuItem Header="Удалить" Click="DeleteItemAccess"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Column="4" Margin="5,20,5,0">
+            <StackPanel x:Name="addNewClientSP" Margin="0,20,0,0" Visibility="Collapsed">
+                <TextBlock Text="Новый клиент" FontFamily="Arial" FontSize="16" HorizontalAlignment="Center"/>
+                <TextBox materialDesign:HintAssist.Hint="{Binding ElementName=surname, Path=Header}" x:Name="newSurname"/>
+                <TextBox materialDesign:HintAssist.Hint="{Binding ElementName=name, Path=Header}" x:Name="newName"/>
+                <TextBox materialDesign:HintAssist.Hint="{Binding ElementName=patronymic, Path=Header}" x:Name="newPatronymic"/>
+                <TextBox materialDesign:HintAssist.Hint="{Binding ElementName=phoneNumber, Path=Header}" x:Name="newPhoneNumber"/>
+                <TextBox materialDesign:HintAssist.Hint="{Binding ElementName=emaillocal, Path=Header}" x:Name="newEmaillocal"/>
+                <Button Content="Добавить" Click="addNewClientButtonSP"/>
+            </StackPanel>
+            <StackPanel x:Name="addNewOrderSP" Margin="0,20,0,0" Visibility="Collapsed">
+                <TextBlock Text="Новая покупка" FontFamily="Arial" FontSize="16" HorizontalAlignment="Center"/>
+                <TextBox materialDesign:HintAssist.Hint="{Binding ElementName=emailAccess, Path=Header}" x:Name="newEmailAccess" />
+                <TextBox materialDesign:HintAssist.Hint="{Binding ElementName=product_number, Path=Header}" x:Name="newProductNumber" />
+                <TextBox materialDesign:HintAssist.Hint="{Binding ElementName=product_name, Path=Header}" x:Name="newProductName" />
+                <Button Content="Добавить" Click="addNewOrderButtonSP"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

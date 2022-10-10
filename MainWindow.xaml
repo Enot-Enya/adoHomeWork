@@ -1,0 +1,32 @@
+﻿<Window x:Class="adoHomeWork.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:adoHomeWork"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+         TextElement.FontWeight="Regular"
+         TextElement.FontSize="13"
+         TextOptions.TextFormattingMode="Ideal"
+         TextOptions.TextRenderingMode="Auto"
+         Background="{DynamicResource MaterialDesignPaper}"
+         FontFamily="{DynamicResource MaterialDesignFont}"
+        mc:Ignorable="d"
+        Title="Авторизация" Height="320" Width="480"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <ComboBox x:Name="ComboBoxDBChooser" materialDesign:HintAssist.Hint="Выберите базу данных для подключения" Margin="0,0,0,20">
+                <ComboBoxItem x:Name="UserChooselocalDBCB" Content="localdb" Selected="UserChooseDBComboBox"/>
+                <ComboBoxItem x:Name="UserChooseAccesDBCB" Content="Access" Selected="UserChooseDBComboBox"/>
+                <ComboBoxItem x:Name="UserChooseAllDBCB" Content="Обе" Selected="UserChooseDBComboBox"/>
+            </ComboBox>
+            <TextBox x:Name="loginLocalDB" materialDesign:HintAssist.Hint="Введите логин для LocalDB" Visibility="Collapsed"/>
+            <PasswordBox x:Name="passwordLocalDb" materialDesign:HintAssist.Hint="Введите пароль для LocalDB" Visibility="Collapsed" Margin="0,0,0,20"/>
+            <TextBlock x:Name="loginAccessDB" Text="Admin" Visibility="Collapsed"/>
+            <PasswordBox x:Name="passwordAccessDb" materialDesign:HintAssist.Hint="Введите пароль для AccessDB" Visibility="Collapsed" Margin="0,0,0,20"/>
+            <Button Content="Войти" Click="TryToConnectButton" IsDefault="True" Cursor="Hand"/>
+        </StackPanel>
+    </Grid>
+</Window>

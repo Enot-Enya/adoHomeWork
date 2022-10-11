@@ -117,14 +117,14 @@ namespace adoHomeWork
                 #endregion
 
                 #region UPDATE
-                var accessUpdate = @"UPDATE ORDERS SET 
+                var accessUpdate = $@"UPDATE ORDERS SET 
                            email = @emailAccess,
                            product_number = @product_number, 
                            product_name = @product_name
                            WHERE Id = @idAccess";
 
                 daAccess.UpdateCommand = new OleDbCommand(accessUpdate, accessConnection);
-                daAccess.UpdateCommand.Parameters.Add("@idAccess", OleDbType.Integer, default, "Id").SourceVersion = DataRowVersion.Original;
+                daAccess.UpdateCommand.Parameters.Add($"@idAccess", OleDbType.Integer, 0, "Id");
                 daAccess.UpdateCommand.Parameters.Add("@emailAccess", OleDbType.WChar, 0, "email");
                 daAccess.UpdateCommand.Parameters.Add("@product_number", OleDbType.WChar, 0, "product_number");
                 daAccess.UpdateCommand.Parameters.Add("@product_name", OleDbType.WChar, 0, "product_name");
@@ -132,12 +132,10 @@ namespace adoHomeWork
 
                 #region Insert
                 var sql = @"INSERT INTO ORDERS (email,  product_number,  product_name) 
-                                 VALUES (@email,  @product_number,  @product_name); 
-                     SET @id = @@IDENTITY;";
+                                 VALUES (@email,  @product_number,  @product_name);";
 
                 daAccess.InsertCommand = new OleDbCommand(sql, accessConnection);
 
-                daAccess.InsertCommand.Parameters.Add("@Id", OleDbType.Integer, 4, "Id").Direction = ParameterDirection.Output;
                 daAccess.InsertCommand.Parameters.Add("@email", OleDbType.WChar, 0, "email");
                 daAccess.InsertCommand.Parameters.Add("@product_number", OleDbType.WChar, 0, "product_number");
                 daAccess.InsertCommand.Parameters.Add("@product_name", OleDbType.WChar, 0, "product_name");
@@ -167,8 +165,6 @@ namespace adoHomeWork
         #region Редактирование записей
         private void ChangedLocal(object sender, EventArgs e)
         {
-            // Выходит ошибка при нажатии на пустые поля
-            // Обрабатывать смысла нет, поэтому я ее игнорирую
                 if (drLocal == null) return;
                 drLocal.EndEdit();
                 daLocal.Update(dtLocal);

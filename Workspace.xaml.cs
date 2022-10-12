@@ -124,7 +124,7 @@ namespace adoHomeWork
                            WHERE Id = @idAccess";
 
                 daAccess.UpdateCommand = new OleDbCommand(accessUpdate, accessConnection);
-                daAccess.UpdateCommand.Parameters.Add($"@idAccess", OleDbType.Integer, 0, "Id");
+                daAccess.UpdateCommand.Parameters.AddWithValue("@idAccess", "Id");
                 daAccess.UpdateCommand.Parameters.Add("@emailAccess", OleDbType.WChar, 0, "email");
                 daAccess.UpdateCommand.Parameters.Add("@product_number", OleDbType.WChar, 0, "product_number");
                 daAccess.UpdateCommand.Parameters.Add("@product_name", OleDbType.WChar, 0, "product_name");
@@ -140,7 +140,6 @@ namespace adoHomeWork
                 daAccess.InsertCommand.Parameters.Add("@product_number", OleDbType.WChar, 0, "product_number");
                 daAccess.InsertCommand.Parameters.Add("@product_name", OleDbType.WChar, 0, "product_name");
                 #endregion
-
                 daAccess.Fill(dtAccess);
                 gridViewAccess.DataContext = dtAccess.DefaultView;
             }
@@ -174,7 +173,19 @@ namespace adoHomeWork
         { 
                 if (drAccess == null) return;
                 drAccess.EndEdit();
-                daAccess.Update(dtAccess);
+            TextBlock selectedTextBlock = gridViewAccess.Columns[0].GetCellContent(gridViewAccess.Items[gridViewAccess.SelectedIndex]) as TextBlock;
+            int selectedId = int.Parse(selectedTextBlock?.Text);
+            var accessUpdate = $@"UPDATE ORDERS SET 
+                           email = @emailAccess,
+                           product_number = @product_number, 
+                           product_name = @product_name
+                           WHERE Id = {selectedId}";
+
+            daAccess.UpdateCommand = new OleDbCommand(accessUpdate, accessConnection);
+            daAccess.UpdateCommand.Parameters.Add("@emailAccess", OleDbType.WChar, 0, "email");
+            daAccess.UpdateCommand.Parameters.Add("@product_number", OleDbType.WChar, 0, "product_number");
+            daAccess.UpdateCommand.Parameters.Add("@product_name", OleDbType.WChar, 0, "product_name");
+            daAccess.Update(dtAccess);
         }
 
 
